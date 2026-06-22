@@ -101,7 +101,6 @@ body { margin: 0; background: var(--paper); color: var(--ink); -webkit-font-smoo
 .modal h2 { font-size: 22px; font-weight: 800; margin: 4px 0 8px; line-height: 1.3; }
 .modal .m-stars { font-size: 14px; color: var(--lane-gold); margin-bottom: 16px; }
 .modal .m-body { font-size: 14.5px; line-height: 1.65; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 18px; white-space: pre-line; }
-/* 링크 스타일 정의 */
 .modal .m-body a { color: #0066cc; font-weight: 700; text-decoration: underline; word-break: break-all; }
 .modal .m-body a:hover { color: var(--track-red); }
 
@@ -158,6 +157,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); -webkit-font-smoo
 </div>
 
 <script>
+// 데이터셋 정의
 const CORE_PROGRAM = {
   1: { stars: 4, title: "컨디셔닝 1000m x 7R", summary: "• 보강: 상체스트레칭 & 바디모빌리티A/B\n  상체스트레칭 영상보기 https://cafe.naver.com/teamfca/118466\n• 워밍업: 17분 (6'00\" ~ 7'00\" 페이스)\n• 보강 B: 바디모빌리티A 영상보기 https://cafe.naver.com/teamfca/92592\n  바디모빌리티B 영상보기 https://cafe.naver.com/teamfca/106663\n• 메인: 컨디셔닝 1000m × 7회 (휴식 1분 30초)\n  - 1~6R 페이스: 400m 트랙 기준 1분 38초\n  - 7R 페이스: 400m 트랙 기준 1분 34초\n• 에어로빅: 12분 (6'00\" ~ 7'00\" 페이스) 에어로빅 설명보기 https://cafe.naver.com/teamfca/104387\n• 쿨다운: 3분 (8'00\" ~ 9'00\" 페이스)\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672\n• 가이드: 호흡이 거칠어지는 80% 강도 타겟. 6R 진행 후 5분 완전 휴식 후 7R 수행." },
   2: { stars: 0, title: "에어로빅 빌드업 러닝 70분(C)", summary: "• 보강: 상체스트레칭 영상보기 https://cafe.naver.com/teamfca/118466\n• 보강 B: 바디모빌리티A 영상보기 https://cafe.naver.com/teamfca/92592\n• 메인: 에어로빅 러닝 70분 점진적 빌드업\n  - 10분: km당 5'45\"\n  - 10분: km당 5'35\"\n  - 10분: km당 5'25\"\n  - 10분: km당 5'15\"\n  - 10분: km당 5'05\"\n  - 20분: km당 4'55\"\n• 가이드: 중간에 쉬지 않고 정해진 시간마다 페이스 정밀 가속. 에어로빅 설명보기 https://cafe.naver.com/teamfca/104387\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
@@ -195,7 +195,7 @@ const CORE_PROGRAM = {
   34: { stars: 5, title: "스피드 1000m 인터벌 오토 트랙 세트", summary: "• 보강: 상체스트레칭 및 한발밸런스 각 30초 x 3round 선행\n• 보강 B: 바디모빌리티A 필수 가동 + 워밍업 러닝 15분 + 100m Dash × 3R + 휴식 7분\n• Main: [스피드 1000m(400m당 1'36\") + 완전 제자리 휴식 60초] × 10회 고강도 주행\n  - 5라운드 종료 시점에만 세트간 완전 휴식시간 3분 특별 부여.\n• 마감: 러닝 5분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   35: { stars: 0, title: "상체 스트레칭 대용 팔치기 + 에어로빅 70분", summary: "• 보강: 스트레칭 대신 팔치기 영상보기 https://cafe.naver.com/teamfca/114776 고집적 3분 × 3R 동작 수행\n• 메인: 에어로빅 러닝 70분 (C레벨 5'45\"부터 최종 20분간 4'45\"까지 단계적 가속 주행)\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   36: { stars: 0, title: "컨디셔닝 200m 단거리 스피드 플레이", summary: "• 보강: 상체스트레칭 및 바디모빌리티B 연동\n• 워밍업: 4000m 빌드업 가속 매칭 (2'24\" → 1'52\") + 휴식 7분\n• 메인: [200m 가속 트랙런(43초) + 휴식 70초] × 10회 순환 주행\n• 마감: 러닝 10분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
-  37: { stars: 5, title: "순수 항속력 적응 시간주 120분", summary: "• 보강: 상체스트레칭 및 바디모빌리티A 연동\n• 메인: 시간주 120분 (2시간 연속 주행 지속 훈련)\n  - 허용 페이스 스펙트럼: 5'50\" ~ 4'50\" 범위 내 컨디션별 자율 배정\n  - 가이드: 일시 정지 시간 제외, 순수 주행 적산 시간으로만 120분을 가득 채워야 유산소성 대사가 완성됩니다.\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
+  37: { stars: 5, title: "순수 항속력 적응 시간주 120분", summary: "• 보강: 상체스트레칭 및 바디모빌리티A 연동\n• 메인: 시간주 120분 (2시간 연속 주행 지속 훈련)\n  - 허용 페이스 스펙트럼: 5'50\" ~ 4'45\" 범위 내 컨디션별 자율 배정\n  - 가이드: 일시 정지 시간 제외, 순수 주행 적산 시간으로만 120분을 가득 채워야 유산소성 대사가 완성됩니다.\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   38: { stars: 5, title: "400m 정밀 하이 스피드 인터벌 15R", summary: "• 보강: 상체스트레칭 및 바디모빌리티A 연동\n• 워밍업: 15분 + 100m 초고속 Dash 3R + 휴식 5분\n• 메인: [400m 질주(1분 26초) + 휴식 90초 제자리] × 5라운드 구조를 1세트로 도합 3세트 클리어 (세트휴식 3분)\n• 마감: 러닝 15분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   39: { stars: 0, title: "선보강 후러닝 에어로빅 빌드업 복합", summary: "• 선보강: 힙모빌리티 6종 세트 3회전 (part 1 https://cafe.naver.com/teamfca/91385 part 2 https://cafe.naver.com/teamfca/91386) + 팔치기 영상보기 https://cafe.naver.com/teamfca/114776 3분 × 3R\n• 메인: 에어로빅 1000m 빌드업 4단계 통과 직후 휴식 없이 2000m 지속주 결합 (5'45\" 시작하여 4'45\" 고속 마무리)\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   40: { stars: 4, title: "엔듀런스 지속주 3000m 단일 타겟런", summary: "• 보강: 한발밸런스 및 바디모빌리티B 연동\n• 워밍업: 4000m 빌드업 가속 매칭 (2'24\" → 1'52\") + 100m Dash × 3R + 휴식 5분\n• 메인: 엔듀런스 3000m 고속 지속주 × 1회 클리어 (400m당 1분 34초 평정 항속)\n• 마감: 러닝 15~20분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
@@ -203,7 +203,7 @@ const CORE_PROGRAM = {
   42: { stars: 0, title: "초장거리 연계 에어로빅 10km 특수 세션", summary: "• 선보강 동일: 힙모빌리티 6종 코어 3세트 및 팔치기 3분 3세트 필수 선행\n• 메인: 에어로빅 초기 4개 단계 빌드업 통과 직후 휴식 없이 곧바로 6000m 지속주 돌입 (5'45\" 시작하여 4'45\" 항속 리드)\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   43: { stars: 0, title: "에어로빅 90분 + 코어 근섬유 자극 보강", summary: "• 보강: 상체스트레칭 및 바디모빌리티A 주입\n• 메인: 에어로빅 90분 완수 (5'40\" 진입 후 최종 70분간 4'45\" 크루징 유지)\n• 사후보강: 힙모빌리티B 영상보기 https://cafe.naver.com/teamfca/102336 1세트 및 New 하복근 영상보기 https://cafe.naver.com/teamfca/99535 100회 × 7세트\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   44: { stars: 0, title: "에어로빅 단축런 + 번개 컨디셔닝 1000m", summary: "• 보강: 상체스트레칭 및 바디모빌리티A 주입\n• 메인 A: 에어로빅 숏 러닝 30분 (5'45\" → 5'15\" 점진 가속) + 휴식 5분\n• 메인 B: 컨디셔닝 1000m 단일 세션 × 1R 주파 (400m 레인 기준 1분 36초 지속 유지)\n• 마감: 쿨다운 5분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
-  45: { stars: 5, title: "풀코스 특화 실전 거리주(LSD) 30km", summary: "• 보강: 상체스트레칭 및 바디모빌리티A 디자인 연동\n• 워밍업: 라이트 조깅 5분 + 휴식 3분\n• 메인: 30,000m 실전 장거리 마일리지 빌드\n  - 0 ~ 10km 구간 페이스: 1000m당 4분 45초 제어\n  - 10 ~ 30km 구간 페이스: 1000m당 4분 35초 후반 가속 주행\n• 보급 가이드: 24일차 거리주 오퍼레이션 원칙 고수. 40~50분 타임대 단위로 젤 보급을 정밀 완수하여 데미지를 차단하세요.\n• 마감: 쿨다운 5분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
+  45: { stars: 5, title: "풀코스 특화 실전 거리주(LSD) 30km", summary: "• 보강: 상체스트레칭 및 바디모빌리티A 디자인 연동\n• 워밍업: 라이트 조깅 5분 + 휴식 3분\n• 메인: 30,000m 실전 장거리 마일리지 빌드\n  - 0 ~ 10km 구간 페이스: 1000m당 4분 45초\n  - 10 ~ 30km 구간 페이스: 1000m당 4분 35초 후반 가속 주행\n• 보급 가이드: 24일차 거리주 오퍼레이션 원칙 고수. 40~50분 타임대 단위로 젤 보급을 정밀 완수하여 데미지를 차단하세요.\n• 마감: 쿨다운 5분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   46: { stars: 0, title: "회복형 에어로빅 60분 주행", summary: "• 보강: 한발밸런스 및 팔치기 영상보기 https://cafe.naver.com/teamfca/114776 3분 × 3R\n• 메인: 에어로빅 정속 러닝 60분 (A레벨 5'40\" 진입 후 최종 20분간 4'45\" 항속력 단련)\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   47: { stars: 4, title: "엔듀런스 고강도 지속주 5000m", summary: "• 보강: 한발밸런스 및 바디모빌리티B 영상보기 https://cafe.naver.com/teamfca/106663\n• 워밍업: 4000m 빌드업 랩가속 런 + 100m Dash × 3R + 휴식 5분\n• 메인: 엔듀런스 5000m 단일 지속주 파워런 항속 (400m당 1분 38초 완전 고정 페이싱 수행)\n• 마감: 러닝 15분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   48: { stars: 5, title: "엔듀런스 2000m 세트 + 200m 쇼트 가속콤보", summary: "• 보강: 상체스트레칭 및 바디모빌리티B 주입\n• 워밍업: 장거리 조깅 5000m + Dash 2R + 휴식 5분\n• Main A: [엔듀런스 2000m(400m당 1'40\") + 휴식 3분] × 3회 반복\n• Main B: [200m 스퍼트 가속주(40초) + 휴식 50초] × 3회 반복\n• 마감: 쿨다운 5분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
@@ -224,7 +224,7 @@ const CORE_PROGRAM = {
   63: { stars: 0, title: "레그레이즈업 + 에어로빅 70분(C)", summary: "• 선보강: 골반 회전용 스탠딩 레그레이즈업 300회 영상보기 https://tv.naver.com/v/18819297\n• 메인: 에어로빅 런 70분 (6'00\" ~ 7'30\" 완화 조깅 영역 지속)\n• 잠들기 전 보강: 힙모빌리티B 1회전 및 New 하복근 영상보기 https://youtu.be/QbdpPmjbsO8 5세트 시스템 고수.\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   64: { stars: 4, title: "지구력 스피드 400m 정밀 통제형", summary: "• 보강: 상체스트레칭 및 팔치기 3분 × 3R\n• 워밍업: 15분 + 100m Dash × 2R + 바디모빌리티B 주입 + 휴식 7분\n• 메인: [400m 질주(1분 32초) + 제자리 휴식 50초] × 10회 정밀 타겟 런\n• 마감: 러닝 7분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   65: { stars: 0, title: "주말 연계형 정밀 컨디션 조율 조깅 50분", summary: "• 보강: 상체스트레칭 및 바디모빌리티A 주입\n• 메인: 에어로빅 안정화 런 50분 (6'00\" ~ 7'00\" 무자극 패싱)\n• ★훈련 주기학 가이드: 본 프로그램은 [금요일+토요일 컨디셔닝 ➔ 일요일 고강도 별다섯개 돌파 ➔ 월요일 컨디셔닝 회복 ➔ 화요일 장거리 시간주]로 순환 정렬되는 긴밀한 5일 완결형 유기 구조입니다. 내일의 심폐 확장 연마를 위해 오늘은 철저히 근육 자극과 거친 호흡을 통제하고 리빌딩에 전념하세요.\n• 취침전 보강: New 하복근 영상보기 https://youtu.be/QbdpPmjbsO8 100회 x 5세트 완료." },
-  66: { stars: 5, title: "엔듀런스 지속주 8000m 세트 + 300m 변속주", summary: "• 보강: 상체스트레칭 및 바디모빌리티A 주입\n• 워밍업: 15분 주행 + 100m Dash × 3R + 휴식 7분\n• Main A: 엔듀런스 지속주 8000m 고속 항속\n  - 0 ~ 5000m 구간 페이스: 400m당 1분 40초\n  - 5000m ~ 8000m 가속 페이스: 400m당 1분 38초 주행\n• Main B: [스피드 300m(100m당 21초 페이싱) + 완전 걷기 회복 2분] × 4회 반복 세션.\n• 마감: 쿨다운 5분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
+  66: { stars: 5, title: "엔듀런스 지속주 8000m 세트 + 300m 변속주", summary: "• 보강: 상체스트레칭 및 바디모빌리티A 주입\n• 워밍업: 15분 조깅 + 100m Dash × 3R + 휴식 7분\n• Main A: 엔듀런스 지속주 8000m 고속 항속\n  - 0 ~ 5000m 구간 페이스: 400m당 1분 40초\n  - 5000m ~ 8000m 가속 페이스: 400m당 1분 38초 주행\n• Main B: [스피드 300m(100m당 21초 페이싱) + 완전 걷기 회복 2분] × 4회 반복 세션.\n• 마감: 쿨다운 5분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   67: { stars: 0, title: "회복형 조깅 50분 + 코어 근력 다지기", summary: "• 보강: 팔치기 3분 × 3R\n• 메인: 에어로빅 러닝 50분 (6'00\" ~ 7'00\" 가벼운 리프레시 런)\n• 잠들기 전: New 하복근 영상보기 https://youtu.be/QbdpPmjbsO8 100회 × 5세트 완수." },
   68: { stars: 5, title: "에너지 대사 튜닝 시간주 120분", summary: "• 보강: 상체스트레칭 및 바디모빌리티A 주입\n• 메인: 유산소 한계 점검 시간주 120분 연속 런\n  - 허용 속도 마진 밴드: 6'10\" 초유산소 진입부터 4'40\" 서브3 베이스까지 컨디션별 배정 주행\n  - 주의점: 정지 누적 시간 제외, 순수 주행 적산 시간으로만 120분을 완벽히 충족시키세요.\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   69: { stars: 0, title: "모빌리티 회복 에어로빅 러닝 50분(C)", summary: "• 보강: 상체스트레칭 및 바디모빌리티A 주입\n• 메인: 완전 리커버리 지표 에어로빅 50분 주행\n  - 페이스 라인: 데미지 유발이 전무한 완전 저속 km당 7'00\" ~ 8'00\" 영역 유지\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
@@ -247,7 +247,7 @@ const CORE_PROGRAM = {
   86: { stars: 0, title: "에어로빅 단계별 정밀 가속 러닝 50분", summary: "• 보강: 상체스트레칭 및 바디모빌리티 영상보기 https://cafe.naver.com/teamfca/92592\n• 메인: 에어로빅 가속 밸런스 50분 주행\n  - 10분(7'00\") → 10분(6'50\") → 10분(6'40\") → 마지막 20분간 6'30\" 고정 지속\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   87: { stars: 5, title: "엔듀런스 12,000m 빌드업형 지속주 + 800m 콤보", summary: "• 보강: 상체스트레칭 및 바디모빌리티A 연동\n• 워밍업: 15분 조깅 + 100m Dash 2R + 휴식 5분\n• Main A: 엔듀런스 12,000m 정속 롱 레이싱 (1000m 패싱 페이스 정확히 4분 15초 철저 고정 항속)\n• Main B: [스피드 전이용 800m 인터벌(400m당 1'32\") + 휴식 2분] × 2회\n• 마감: 러닝 10분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   88: { stars: 0, title: "보강 통합 코어 강화 + 에어로빅 50분(C)", summary: "• 선보강 동일: 힙모빌리티 6종 3세트 및 뉴서킷 트레이닝 영상보기 https://cafe.naver.com/teamfca/115973 1round 완수\n• 메인: 에어로빅 50분 주행 (7'00\" 시작하여 5~7분 격차 단위 가속 후 최종 22분간 6'20\" 주파 완수)\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
-  89: { stars: 0, title: "에어로빅 40분 + 분할 컨디셔닝 1000m x 2R", summary: "• 보강: 상체스트레칭 및 바디모빌리티A 주입\n• 메인 A: 에어로빅 가속런 40분 (10분 5'45\" → 10분 5'30\" → 후반 20분간 5'15\" 리드) + 휴식 5분\n• 메인 B: [분할 컨디셔닝 1000m 인터벌(400m당 1'34\") + 휴식 3분] × 2회 수행\n• 마감: 쿨다운 5분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
+  89: { stars: 0, title: "text 에어로빅 40분 + 분할 컨디셔닝 1000m x 2R", summary: "• 보강: 상체스트레칭 및 바디모빌리티A 주입\n• 메인 A: 에어로빅 가속런 40분 (10분 5'45\" → 10분 5'30\" → 후반 20분간 5'15\" 리드) + 휴식 5분\n• 메인 B: [분할 컨디셔닝 1000m 인터벌(400m당 1'34\") + 휴식 3분] × 2회 수행\n• 마감: 쿨다운 5분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   90: { stars: 5, title: "엔듀런스 4000m 지속주 + 800m 하이 인터벌", summary: "• 워밍업 빌드업: 3200m 가속 주행 (400m당 2'28\" 진입하여 최종 2'00\"까지 정밀 단축 링크)\n• 선보강: 바디모빌리티B 영상보기 https://cafe.naver.com/teamfca/106663 직후 딜레이 없이 100m Dash 3R 연동 주파 + 휴식 7분\n• Main A: 엔듀런스 4000m 고속 락인 지속주 × 1회 클리어 (400m당 1분 34초 완전 고정 유지)\n• Main B: [800m 고강도 인터벌 세션(400m당 1'28\") + 휴식 3분] × 2회\n• 마감: 쿨다운 7분 및 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   91: { stars: 0, title: "뉴서킷 파워보강 + 테이퍼링 에어로빅 60분", summary: "• 선보강: 상체스트레칭 및 바디모빌리티B 주입 + 뉴서킷 트레이닝 영상보기 https://cafe.naver.com/teamfca/115973 1round 완수\n• 메인: 에어로빅 정속 조깅 60분 빌드업 (10분 7'00\" → 10분 6'50\" → 10분 6'40\" → 최종 30분간 6'30\")\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
   92: { stars: 0, title: "고부하 팔치기 보강 + 에어로빅 70분 (A레벨)", summary: "• 선보강: 상체 스트레칭 및 상체 파워 리듬 조율용 팔치기 영상보기 https://cafe.naver.com/teamfca/114776 3분 × 5세트 완수\n• 메인: 에어로빅 러닝 70분 테이퍼링 주행\n  - 10분(5'40\") → 10분(5'20\") → 10분(5'00\") → 10분(4'50\") → 후반 30분간 4'45\" 서브3 실전 감각 잠금 주행\n• 스트레칭: 정적스트레칭 영상보기 https://cafe.naver.com/teamfca/114672" },
@@ -267,34 +267,39 @@ const DDAY_INFO = {
   summary: "★ 박현준님, 100일 프로젝트 완결 실전 레이스 오퍼레이션 가이드 ★\n\n1. 기상 직후: 상체 스트레칭 완전 가동 영상보기 https://cafe.naver.com/teamfca/118466\n2. 레이스 전 최종 워밍업 활성화 루틴:\n  - 스탠딩 레그레이즈업 200회 및 바디모빌리티A 주입\n  - 워밍업 러닝 15분 주행 (km당 6'30\" ~ 7'30\" 아주 부드럽게 혈류 공급)\n  - 직후 신경계 각성용 100m 실전 Dash(25.5초) × 3라운드 (휴식 40초)\n  - 최종 바디모빌리티B 연동 소화 영상보기 https://cafe.naver.com/teamfca/106663\n  - 최종 휴식 및 화장실, 장비 점검 완수\n3. 출발 선 이동 15~20분 전:\n  - 제자리 팔치기 영상보기 https://cafe.naver.com/teamfca/114776 (분당 120회 리듬) 30초 + 휴식 30초 = 3~5라운드 수행\n  - 가벼운 최종 정적 스트레칭 조율 후 출발선 진입\n\n모든 준비는 완벽합니다. 몸의 감각을 무의식에 맡기고 직진하십시오. 도전! 오픈케어! 서브3 완벽 골인!!!"
 };
 
-// 2. 2026년 달력 기반 일정 스케줄 매칭 테이블 생성 자동화
-const START_DATE_ISO = "2026-06-22"; // 오늘/시작일
-const PREP_END_ISO = "2026-07-16";  // 준비기간 종료일
-const MAIN_START_ISO = "2026-07-17"; // 본훈련 시작일 (대회 역산 100일전)
-const DDAY_DATE_ISO = "2026-10-25";   // 춘천마라톤 당일
+// 모든 기기에서 100% 동작하는 날짜 생성기 함수
+function createDateObject(year, month, day) {
+  return new Date(year, month - 1, day, 0, 0, 0);
+}
 
 const SCHEDULE = [];
-let currentDate = new Date(START_DATE_ISO + 'T00:00:00');
-const ddayDate = new Date(DDAY_DATE_ISO + 'T00:00:00');
+// 2026년 6월 22일부터 시작
+let currentY = 2026, currentM = 6, currentD = 22;
+let loopDate = createDateObject(currentY, currentM, currentD);
+const ddayDate = createDateObject(2026, 10, 25);
 
 let prepDayCounter = 1;
 let mainDayCounter = 1;
 
-while (currentDate <= ddayDate) {
-  const y = currentDate.getFullYear();
-  const m = String(currentDate.getMonth() + 1).padStart(2, '0');
-  const d = String(currentDate.getDate()).padStart(2, '0');
-  const isoStr = `${y}-${m}-${d}`;
+while (loopDate <= ddayDate) {
+  const y = loopDate.getFullYear();
+  const m = loopDate.getMonth() + 1;
+  const d = loopDate.getDate();
+  
+  const mStr = String(m).padStart(2, '0');
+  const dStr = String(d).padStart(2, '0');
+  const isoStr = `${y}-${mStr}-${dStr}`;
 
   let phase = "main";
   let progDay = 1;
 
-  if (isoStr <= PREP_END_ISO) {
+  // 날짜 비교 계산
+  if (y === 2026 && ((m === 6) || (m === 7 && d <= 16))) {
     phase = "prep";
     progDay = prepDayCounter;
     prepDayCounter++;
     if (prepDayCounter > 25) prepDayCounter = 1;
-  } else if (isoStr === DDAY_DATE_ISO) {
+  } else if (y === 2026 && m === 10 && d === 25) {
     phase = "dday";
     progDay = null;
   } else {
@@ -303,8 +308,10 @@ while (currentDate <= ddayDate) {
     mainDayCounter++;
   }
 
-  SCHEDULE.push({ date: isoStr, phase: phase, programDay: progDay });
-  currentDate.setDate(currentDate.getDate() + 1);
+  SCHEDULE.push({ date: isoStr, phase: phase, programDay: progDay, yearNum: y, monthNum: m, dayNum: d });
+  
+  // 날짜를 1일 더해주는 안전한 방식
+  loopDate.setDate(loopDate.getDate() + 1);
 }
 
 const SCHEDULE_MAP = {};
@@ -312,7 +319,6 @@ SCHEDULE.forEach(s => SCHEDULE_MAP[s.date] = s);
 
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
-// 텍스트 내 URL을 실제 클릭 가능한 HTML 링크로 파싱하는 정규식 함수 추가
 function linkify(text) {
   if (!text) return '';
   const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -321,17 +327,9 @@ function linkify(text) {
   });
 }
 
-// 3. 캘린더 화면 렌더링 엔진 가동
 function buildCalendar() {
   const container = document.getElementById('calendarContainer');
-  const monthsInSchedule = [];
-  
-  SCHEDULE.forEach(s => {
-    const monthKey = s.date.substring(0, 7);
-    if (!monthsInSchedule.includes(monthKey)) {
-      monthsInSchedule.push(monthKey);
-    }
-  });
+  const monthsInSchedule = ["2026-06", "2026-07", "2026-08", "2026-09", "2026-10"];
 
   monthsInSchedule.forEach(mKey => {
     const [year, month] = mKey.split('-');
@@ -419,9 +417,9 @@ function buildCalendar() {
   });
 }
 
-// 4. 모달 오퍼레이션 함수 컨트롤
 function openModal(dateISO, phase, progDay, content) {
-  const d = new Date(dateISO + 'T00:00:00');
+  const parts = dateISO.split('-');
+  const d = new Date(parts[0], parts[1] - 1, parts[2]);
   const dateStr = `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 (${WEEKDAYS[d.getDay()]})`;
   
   document.getElementById('mDate').textContent = dateStr;
@@ -440,8 +438,6 @@ function openModal(dateISO, phase, progDay, content) {
 
   document.getElementById('mTitle').textContent = content.title;
   document.getElementById('mStars').textContent = content.stars ? '난이도 지표: ' + '★'.repeat(content.stars) + '☆'.repeat(5 - content.stars) : '';
-  
-  // textContent 대신 innerHTML을 사용하고 linkify 함수로 정규식 변환을 적용하여 주소를 링크로 활성화
   document.getElementById('mBody').innerHTML = linkify(content.summary);
 
   document.getElementById('modalOverlay').classList.add('open');
