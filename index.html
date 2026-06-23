@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="오픈케어 서브3 풀코스 100일 프로젝트">
+<meta property="og:description" content="서브3 완주를 위한 100일 훈련 플랜">
+<meta property="og:url" content="https://sub3go.github.io/marathon-100days/">
 <title>오픈케어 서브3 풀코스 100일 프로젝트</title>
 <style>
 :root {
@@ -144,6 +147,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); -webkit-font-smoo
 }
 .modal .m-body a { color: #0055bb; font-weight: 700; text-decoration: underline; word-break: break-all; }
 .modal .m-body a:hover { color: var(--track-red); }
+.modal .m-body .highlight-main { color: var(--track-red); font-weight: 700; }
 
 /* 모바일 최적화 */
 @media (max-width: 640px) {
@@ -392,10 +396,17 @@ const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 // 텍스트 내 URL을 실제 클릭 가능한 HTML 링크로 파싱하는 정규식 함수 추가
 function linkify(text) {
   if (!text) return '';
-  const urlRegex = /(https?:\/\/[^\s]+)/g;
-  return text.replace(urlRegex, function(url) {
-    return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+  const lines = text.split('\n');
+  const processed = lines.map(line => {
+    const linked = line.replace(/(https?:\/\/[^\s]+)/g, url =>
+      `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
+    );
+    if (/^[•]?\s*(메인|Main)(\s*(A|B|보강|:))?/.test(line.trim())) {
+      return `<span class="highlight-main">${linked}</span>`;
+    }
+    return linked;
   });
+  return processed.join('\n');
 }
 
 // 3. 캘린더 화면 렌더링 엔진 가동
