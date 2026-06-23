@@ -507,11 +507,17 @@ function buildCalendar() {
         tagLabel = entry.phase === "prep" ? `준비 ${entry.programDay}일` : `${entry.programDay}일차`;
       }
 
-      // 1주일 단위 공개: 오늘이 속한 주의 일요일까지만 공개
+      // 토요일에 다음주 미리 공개: 이번주 일요일 + 다음주 7일치
       const today = new Date(); today.setHours(0,0,0,0);
-      const todayDay = today.getDay(); // 0=일, 1=월 ...
+      const todayDay = today.getDay(); // 0=일, 1=월 ... 6=토
       const weekEnd = new Date(today);
-      weekEnd.setDate(today.getDate() + (7 - todayDay)); // 이번 주 일요일
+      if (todayDay === 6) {
+        // 토요일이면 다음주 일요일까지 공개
+        weekEnd.setDate(today.getDate() + 8);
+      } else {
+        // 평일/일요일이면 이번주 일요일까지 공개
+        weekEnd.setDate(today.getDate() + (7 - todayDay));
+      }
       const cellDate = new Date(dateISO + 'T00:00:00');
       const isLocked = cellDate > weekEnd;
 
