@@ -94,6 +94,27 @@ body { margin: 0; background: var(--paper); color: var(--ink); -webkit-font-smoo
 .cell .title { font-size: 12px; font-weight: 700; margin-top: 6px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex-grow: 1; color: var(--ink); }
 .cell .stars { font-size: 9px; color: var(--lane-gold); margin-top: 2px; letter-spacing: -0.5px; }
 
+.cell.today {
+  border: 2px solid var(--track-red) !important;
+  box-shadow: 0 0 0 3px rgba(209,74,31,0.15);
+  position: relative;
+}
+.cell.today::before {
+  content: '오늘';
+  position: absolute; top: 4px; right: 5px;
+  font-size: 9px; font-weight: 800; color: #fff;
+  background: var(--track-red); border-radius: 3px;
+  padding: 1px 5px; letter-spacing: 0.05em;
+}
+.cell.today .date-num { color: var(--track-red); }
+
+.cell.locked {
+  background: var(--paper-dim); opacity: 0.45;
+  cursor: default; pointer-events: none;
+}
+.cell.locked:hover { transform: none; box-shadow: none; }
+.cell .lock-icon { font-size: 18px; margin-top: 6px; text-align: center; flex-grow: 1; display: flex; align-items: center; justify-content: center; }
+
 /* 별 4~5개 강조 */
 .cell.high-intensity { background: #FFF8F6; }
 .cell.high-intensity.p-main { border-top: 4px solid var(--track-red); box-shadow: 0 0 0 1px rgba(209,74,31,0.15); }
@@ -486,23 +507,45 @@ function buildCalendar() {
         tagLabel = entry.phase === "prep" ? `준비 ${entry.programDay}일` : `${entry.programDay}일차`;
       }
 
+      // 1주일 단위 공개: 오늘이 속한 주의 일요일까지만 공개
+      const today = new Date(); today.setHours(0,0,0,0);
+      const todayDay = today.getDay(); // 0=일, 1=월 ...
+      const weekEnd = new Date(today);
+      weekEnd.setDate(today.getDate() + (6 - todayDay)); // 이번 주 토요일
+      const cellDate = new Date(dateISO + 'T00:00:00');
+      const isLocked = cellDate > weekEnd;
+
       const starText = dayContent.stars ? '★'.repeat(dayContent.stars) : '';
       const isHighIntensity = dayContent.stars >= 4;
-      if (isHighIntensity) classType += ' high-intensity';
+      if (isHighIntensity && !isLocked) classType += ' high-intensity';
+      const isToday = cellDate.getTime() === today.getTime();
+      if (isToday) classType += ' today';
+
+      if (isLocked) classType += ' locked';
 
       cell.className = classType;
-      cell.innerHTML = `
-        <div class="top-bar">
-          <span class="date-num">${dayNum}</span>
-          <span class="day-tag">${tagLabel}</span>
-        </div>
-        <div class="title">${dayContent.title}</div>
-        ${starText ? `<div class="stars">${starText}</div>` : ''}
-        ${isHighIntensity && dayContent.stars === 5 ? '<div class="intensity-badge">🔥 HIGH</div>' : ''}
-        ${isHighIntensity && dayContent.stars === 4 ? '<div class="intensity-badge">⚡ KEY</div>' : ''}
-      `;
 
-      cell.addEventListener('click', () => openModal(dateISO, entry.phase, entry.programDay, dayContent));
+      if (isLocked) {
+        cell.innerHTML = `
+          <div class="top-bar">
+            <span class="date-num">${dayNum}</span>
+            <span class="day-tag">${tagLabel}</span>
+          </div>
+          <div class="lock-icon">🔒</div>
+        `;
+      } else {
+        cell.innerHTML = `
+          <div class="top-bar">
+            <span class="date-num">${dayNum}</span>
+            <span class="day-tag">${tagLabel}</span>
+          </div>
+          <div class="title">${dayContent.title}</div>
+          ${starText ? `<div class="stars">${starText}</div>` : ''}
+          ${isHighIntensity && dayContent.stars === 5 ? '<div class="intensity-badge">🔥 HIGH</div>' : ''}
+          ${isHighIntensity && dayContent.stars === 4 ? '<div class="intensity-badge">⚡ KEY</div>' : ''}
+        `;
+        cell.addEventListener('click', () => openModal(dateISO, entry.phase, entry.programDay, dayContent));
+      }
       grid.appendChild(cell);
     }
 
