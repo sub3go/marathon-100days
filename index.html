@@ -511,7 +511,7 @@ function buildCalendar() {
       const today = new Date(); today.setHours(0,0,0,0);
       const todayDay = today.getDay(); // 0=일, 1=월 ...
       const weekEnd = new Date(today);
-      weekEnd.setDate(today.getDate() + (6 - todayDay)); // 이번 주 토요일
+      weekEnd.setDate(today.getDate() + (7 - todayDay)); // 이번 주 일요일
       const cellDate = new Date(dateISO + 'T00:00:00');
       const isLocked = cellDate > weekEnd;
 
