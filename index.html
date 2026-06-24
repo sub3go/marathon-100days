@@ -115,6 +115,20 @@ body { margin: 0; background: var(--paper); color: var(--ink); -webkit-font-smoo
 .cell.locked:hover { transform: none; box-shadow: none; }
 .cell .lock-icon { font-size: 18px; margin-top: 6px; text-align: center; flex-grow: 1; display: flex; align-items: center; justify-content: center; }
 
+.cell .day-of-week { display: none; font-size: 10px; font-weight: 600; margin-left: 2px; }
+.cell .text-red { color: #D32F2F; }
+.cell .text-blue { color: #1565C0; }
+
+@media (max-width: 640px) {
+  .cell .day-of-week { display: inline; }
+  .cell.day-sun .date-num,
+  .cell.day-sun .day-of-week { color: #D32F2F; }
+  .cell.day-sat .date-num,
+  .cell.day-sat .day-of-week { color: #1565C0; }
+  .cell.day-sun { background: #FFF5F5; }
+  .cell.day-sat { background: #F5F8FF; }
+}
+
 /* 별 4~5개 강조 */
 .cell.high-intensity { background: #FFF8F6; }
 .cell.high-intensity.p-main { border-top: 4px solid var(--track-red); box-shadow: 0 0 0 1px rgba(209,74,31,0.15); }
@@ -169,6 +183,12 @@ body { margin: 0; background: var(--paper); color: var(--ink); -webkit-font-smoo
 .modal .m-body a { color: #0055bb; font-weight: 700; text-decoration: underline; word-break: break-all; }
 .modal .m-body a:hover { color: var(--track-red); }
 .modal .m-body .highlight-main { color: var(--track-red); font-weight: 700; }
+.modal .m-body .pace-tag {
+  display: inline-block; font-size: 12px; font-weight: 700;
+  color: #993C1D; background: #FFF0ED; border: 1px solid #F0997B;
+  border-radius: 4px; padding: 0px 6px; margin-left: 4px;
+  vertical-align: middle; white-space: nowrap;
+}
 
 /* 모바일 최적화 */
 @media (max-width: 640px) {
@@ -414,18 +434,68 @@ SCHEDULE.forEach(s => SCHEDULE_MAP[s.date] = s);
 
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
+// 거리+시간 패턴 감지해서 페이스 자동 계산
+function calcPace(distanceM, timeSec) {
+  const secPerKm = (timeSec / distanceM) * 1000;
+  const min = Math.floor(secPerKm / 60);
+  const sec = Math.round(secPerKm % 60);
+  return `${min}'${String(sec).padStart(2, '0')}" 페이스`;
+}
+
+function injectPace(line) {
+  if (line.includes('pace-tag') || line.includes('페이스 유지') || line.includes('페이스)')) return line;
+
+  // 패턴 1: 2'24"/400m 형식
+  line = line.replace(/(\d+)'(\d+)"\/(\d+)(m|km)/g, (match, min, sec, dist, unit) => {
+    const distM = unit === 'km' ? parseFloat(dist) * 1000 : parseFloat(dist);
+    const timeSec = parseInt(min) * 60 + parseInt(sec);
+    const pace = calcPace(distM, timeSec);
+    return `${match} <span class="pace-tag">${pace}</span>`;
+  });
+
+  // 패턴 2: 400m 1분 32초 형식
+  line = line.replace(/(\d+(?:\.\d+)?)\s*(m|km)\s*[^0-9\n]{0,20}?(\d+)분\s*(\d+)초/g, (match, dist, unit, min, sec) => {
+    if (match.includes('pace-tag')) return match;
+    const distM = unit === 'km' ? parseFloat(dist) * 1000 : parseFloat(dist);
+    const timeSec = parseInt(min) * 60 + parseInt(sec);
+    const pace = calcPace(distM, timeSec);
+    return `${match} <span class="pace-tag">${pace}</span>`;
+  });
+
+  // 패턴 4: 100m Dash(25.5초) 또는 100m(25초) 형식 - 괄호 안 포함
+  line = line.replace(/(\d+(?:\.\d+)?)\s*(m|km)[^\n(]{0,10}\((\d+(?:\.\d+)?)초\)/g, (match, dist, unit, sec) => {
+    if (match.includes('pace-tag')) return match;
+    const distM = unit === 'km' ? parseFloat(dist) * 1000 : parseFloat(dist);
+    const timeSec = parseFloat(sec);
+    const pace = calcPace(distM, timeSec);
+    return `${match} <span class="pace-tag">${pace}</span>`;
+  });
+
+  // 패턴 5: 100m 45초 형식 (괄호 없음)
+  line = line.replace(/(\d+(?:\.\d+)?)\s*(m|km)[^0-9\n(]{0,20}?(\d+)초(?!\s*페이스)/g, (match, dist, unit, sec) => {
+    if (match.includes('pace-tag')) return match;
+    const distM = unit === 'km' ? parseFloat(dist) * 1000 : parseFloat(dist);
+    const timeSec = parseInt(sec);
+    const pace = calcPace(distM, timeSec);
+    return `${match} <span class="pace-tag">${pace}</span>`;
+  });
+
+  return line;
+}
+
 // 텍스트 내 URL을 실제 클릭 가능한 HTML 링크로 파싱하는 정규식 함수 추가
 function linkify(text) {
   if (!text) return '';
   const lines = text.split('\n');
   const processed = lines.map(line => {
-    const linked = line.replace(/(https?:\/\/[^\s]+)/g, url =>
-      `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
+    let result = injectPace(line);
+    result = result.replace(/(https?:\/\/[^\s]+)/g, url =>
+      `\n<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
     );
     if (/^[•]?\s*(메인|Main)(\s*(A|B|보강|:))?/.test(line.trim())) {
-      return `<span class="highlight-main">${linked}</span>`;
+      return `<span class="highlight-main">${result}</span>`;
     }
-    return linked;
+    return result;
   });
   return processed.join('\n');
 }
@@ -529,12 +599,30 @@ function buildCalendar() {
 
       if (isLocked) classType += ' locked';
 
+      // 공휴일 목록 (2026년)
+      const HOLIDAYS = new Set([
+        '2026-01-01','2026-01-28','2026-01-29','2026-01-30',
+        '2026-03-01','2026-05-05','2026-05-25','2026-06-06',
+        '2026-08-15','2026-09-24','2026-09-25','2026-09-26',
+        '2026-10-03','2026-10-09','2026-12-25'
+      ]);
+
+      const cellDayOfWeek = cellDate.getDay(); // 0=일, 6=토
+      const isSun = cellDayOfWeek === 0;
+      const isSat = cellDayOfWeek === 6;
+      const isHoliday = HOLIDAYS.has(dateISO);
+      const dayOfWeekLabel = WEEKDAYS[cellDayOfWeek];
+
+      // 날짜 색상 클래스
+      if (isSun || isHoliday) classType += ' day-sun';
+      else if (isSat) classType += ' day-sat';
+
       cell.className = classType;
 
       if (isLocked) {
         cell.innerHTML = `
           <div class="top-bar">
-            <span class="date-num">${dayNum}</span>
+            <span class="date-num ${isSun || isHoliday ? 'text-red' : isSat ? 'text-blue' : ''}">${dayNum}<span class="day-of-week">${dayOfWeekLabel}</span></span>
             <span class="day-tag">${tagLabel}</span>
           </div>
           <div class="lock-icon">🔒</div>
@@ -542,7 +630,7 @@ function buildCalendar() {
       } else {
         cell.innerHTML = `
           <div class="top-bar">
-            <span class="date-num">${dayNum}</span>
+            <span class="date-num ${isSun || isHoliday ? 'text-red' : isSat ? 'text-blue' : ''}">${dayNum}<span class="day-of-week">${dayOfWeekLabel}</span></span>
             <span class="day-tag">${tagLabel}</span>
           </div>
           <div class="title">${dayContent.title}</div>
