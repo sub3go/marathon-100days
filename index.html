@@ -1028,7 +1028,11 @@ function buildCalendar() {
       
       // ★ 락 해제 조치: 검토 및 등록 완료를 위해 기존의 토요일 순차 락 조건문을 해제(isLocked = false)해 두었습니다.
       // 나중에 다시 주차별 자동 락을 걸고 싶으실 때만 아래 주석을 풀고 사용하시면 됩니다.
-      const isLocked = false; 
+      const todayDay = today.getDay(); 
+const weekEnd = new Date(today);
+if (todayDay === 6) { weekEnd.setDate(today.getDate() + 8); } 
+else { weekEnd.setDate(today.getDate() + (7 - todayDay)); }
+const isLocked = cellDate > weekEnd;
       /*
       const todayDay = today.getDay(); 
       const weekEnd = new Date(today);
