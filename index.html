@@ -462,9 +462,10 @@ function injectPace(line) {
     return `${match} <span class="pace-tag">${pace}</span>`;
   });
 
-  // 패턴 2: 400m 1분 32초 형식
+  // 패턴 2: 400m 1분 32초 형식 (휴식 제외)
   line = line.replace(/(\d+(?:\.\d+)?)\s*(m|km)\s*[^0-9\n]{0,20}?(\d+)분\s*(\d+)초/g, (match, dist, unit, min, sec) => {
     if (match.includes('pace-tag')) return match;
+    if (/휴식/.test(match)) return match;
     const distM = unit === 'km' ? parseFloat(dist) * 1000 : parseFloat(dist);
     const timeSec = parseInt(min) * 60 + parseInt(sec);
     const pace = calcPace(distM, timeSec);
