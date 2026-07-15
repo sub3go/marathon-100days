@@ -767,11 +767,19 @@ document.getElementById('modalOverlay').addEventListener('click', (e) => {
   if (e.target.id === 'modalOverlay') closeModal();
 });
 (function() {
-  const dday = new Date('2026-10-25T00:00:00');
+  const races = [
+    { name: '🏃 춘천마라톤', date: '2026-10-25' },
+    { name: '🏃 JTBC마라톤', date: '2026-11-01' },
+    { name: '🏃 손기정마라톤', date: '2026-11-15' },
+    { name: '🏃 인천마라톤', date: '2026-11-22' },
+  ];
   const today = new Date(); today.setHours(0,0,0,0);
-  const diff = Math.ceil((dday - today) / (1000 * 60 * 60 * 24));
+  const next = races.find(r => new Date(r.date) >= today) || races[races.length - 1];
+  const diff = Math.ceil((new Date(next.date) - today) / (1000 * 60 * 60 * 24));
   const el = document.getElementById('ddayNum');
+  const lb = document.querySelector('#ddayStat .lbl');
   if (el) el.textContent = diff > 0 ? 'D-' + diff : diff === 0 ? 'D-DAY' : 'D+' + Math.abs(diff);
+  if (lb) lb.textContent = next.name;
 })();
 buildCalendar();
 </script>
