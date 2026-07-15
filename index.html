@@ -258,10 +258,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); -webkit-font-smoo
       <div class="stat"><span class="num">126</span><span class="lbl">총 훈련일</span></div>
       <div class="stat"><span class="num">25</span><span class="lbl">준비 순환(일)</span></div>
       <div class="stat"><span class="num">100</span><span class="lbl">본훈련 카운트</span></div>
-      <div class="stat"><span class="num" id="dday1">-</span><span class="lbl">🏃 춘천</span></div>
-<div class="stat"><span class="num" id="dday2">-</span><span class="lbl">🏃 JTBC</span></div>
-<div class="stat"><span class="num" id="dday3">-</span><span class="lbl">🏃 손기정</span></div>
-<div class="stat"><span class="num" id="dday4">-</span><span class="lbl">🏃 인천</span></div>
+      <div class="stat"><span class="num" style="font-size:13px;" id="ddayAll">-</span><span class="lbl">🏃 레이스 D-DAY</span></div>
     </div>
   </div>
 
@@ -777,12 +774,14 @@ document.getElementById('modalOverlay').addEventListener('click', (e) => {
     { id: 'dday4', date: '2026-11-22' },
   ];
   const today = new Date(); today.setHours(0,0,0,0);
-  races.forEach(r => {
+  const names = ['춘천', 'JTBC', '손기정', '인천'];
+  const text = races.map((r, i) => {
     const diff = Math.ceil((new Date(r.date) - today) / (1000 * 60 * 60 * 24));
-    const el = document.getElementById(r.id);
-    if (el) el.textContent = diff > 0 ? 'D-' + diff : diff === 0 ? 'D-DAY' : 'D+' + Math.abs(diff);
-  });
-})();
+    const d = diff > 0 ? 'D-' + diff : diff === 0 ? 'D-DAY' : 'D+' + Math.abs(diff);
+    return names[i] + ' ' + d;
+  }).join(' / ');
+  const el = document.getElementById('ddayAll');
+  if (el) el.textContent = text;
 buildCalendar();
 </script>
 </body>
