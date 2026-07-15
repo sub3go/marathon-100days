@@ -258,6 +258,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); -webkit-font-smoo
       <div class="stat"><span class="num">126</span><span class="lbl">총 훈련일</span></div>
       <div class="stat"><span class="num">25</span><span class="lbl">준비 순환(일)</span></div>
       <div class="stat"><span class="num">100</span><span class="lbl">본훈련 카운트</span></div>
+      <div class="stat" id="ddayStat"><span class="num" id="ddayNum">-</span><span class="lbl">🏃 춘천마라톤</span></div>
     </div>
   </div>
 
@@ -647,9 +648,9 @@ function buildCalendar() {
       const today = new Date(); today.setHours(0,0,0,0);
       const todayDay = today.getDay(); // 0=일, 1=월 ... 6=토
       const weekEnd = new Date(today);
-      if (todayDay === 6) {
-        // 토요일이면 다음주 일요일까지 공개
-        weekEnd.setDate(today.getDate() + 8);
+      if (todayDay >= 4) {
+        // 목요일~토요일이면 다음주 일요일까지 공개
+        weekEnd.setDate(today.getDate() + (7 - todayDay) + 7);
       } else {
         // 평일/일요일이면 이번주 일요일까지 공개
         weekEnd.setDate(today.getDate() + (7 - todayDay));
