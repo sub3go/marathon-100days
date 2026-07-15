@@ -258,7 +258,10 @@ body { margin: 0; background: var(--paper); color: var(--ink); -webkit-font-smoo
       <div class="stat"><span class="num">126</span><span class="lbl">총 훈련일</span></div>
       <div class="stat"><span class="num">25</span><span class="lbl">준비 순환(일)</span></div>
       <div class="stat"><span class="num">100</span><span class="lbl">본훈련 카운트</span></div>
-      <div class="stat" id="ddayStat"><span class="num" id="ddayNum">-</span><span class="lbl">🏃 춘천마라톤</span></div>
+      <div class="stat"><span class="num" id="dday1">-</span><span class="lbl">🏃 춘천</span></div>
+<div class="stat"><span class="num" id="dday2">-</span><span class="lbl">🏃 JTBC</span></div>
+<div class="stat"><span class="num" id="dday3">-</span><span class="lbl">🏃 손기정</span></div>
+<div class="stat"><span class="num" id="dday4">-</span><span class="lbl">🏃 인천</span></div>
     </div>
   </div>
 
@@ -768,18 +771,17 @@ document.getElementById('modalOverlay').addEventListener('click', (e) => {
 });
 (function() {
   const races = [
-    { name: '🏃 춘천마라톤', date: '2026-10-25' },
-    { name: '🏃 JTBC마라톤', date: '2026-11-01' },
-    { name: '🏃 손기정마라톤', date: '2026-11-15' },
-    { name: '🏃 인천마라톤', date: '2026-11-22' },
+    { id: 'dday1', date: '2026-10-25' },
+    { id: 'dday2', date: '2026-11-01' },
+    { id: 'dday3', date: '2026-11-15' },
+    { id: 'dday4', date: '2026-11-22' },
   ];
   const today = new Date(); today.setHours(0,0,0,0);
-  const next = races.find(r => new Date(r.date) >= today) || races[races.length - 1];
-  const diff = Math.ceil((new Date(next.date) - today) / (1000 * 60 * 60 * 24));
-  const el = document.getElementById('ddayNum');
-  const lb = document.querySelector('#ddayStat .lbl');
-  if (el) el.textContent = diff > 0 ? 'D-' + diff : diff === 0 ? 'D-DAY' : 'D+' + Math.abs(diff);
-  if (lb) lb.textContent = next.name;
+  races.forEach(r => {
+    const diff = Math.ceil((new Date(r.date) - today) / (1000 * 60 * 60 * 24));
+    const el = document.getElementById(r.id);
+    if (el) el.textContent = diff > 0 ? 'D-' + diff : diff === 0 ? 'D-DAY' : 'D+' + Math.abs(diff);
+  });
 })();
 buildCalendar();
 </script>
