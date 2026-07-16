@@ -776,7 +776,7 @@ document.getElementById('modalOverlay').addEventListener('click', (e) => {
   const today = new Date(); today.setHours(0,0,0,0);
   const names = ['춘천', 'JTBC', '손기정', '인천'];
   const text = races.map((r, i) => {
-    const diff = Math.ceil((new Date(r.date) - today) / (1000 * 60 * 60 * 24));
+    const diff = Math.round((new Date(r.date) - today) / (1000 * 60 * 60 * 24));
     const d = diff > 0 ? 'D-' + diff : diff === 0 ? 'D-DAY' : 'D+' + Math.abs(diff);
     return names[i] + ' ' + d;
   }).join(' / ');
